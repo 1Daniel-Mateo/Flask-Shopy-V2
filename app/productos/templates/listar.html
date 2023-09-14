@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for mensaje in get_flashed_messages() %}
+       <div class="alert alert-success alert-dismissable">
+        <button type="button" data-dismiss="alert" class="close">
+            X
+        </button>
+        {{ mensaje }}
+       </div>
+    {% endfor %}
+       <h1>😆Lista de productos😆</h1>
+       <table class="table table-hover">
+          <thead>
+            <tr>
+                <th>nombre</th>
+                <th>precio</th>
+                <th>imagen</th>
+                <th>Actualizar</th>
+                <th>Eliminar</th>
+            </tr>
+          </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{producto.name}}</td>
+                    <td>{{producto.precio}}</td>
+                    <td>
+                        <img src="imagenes/{{producto.imagen}}" alt="" width="200px" height="150px">
+                    </td>
+                    <td>
+                        <a href="/productos/editar/{{producto.id}}" class="btn btn-primary">Actualizar</a>
+                    </td>
+                    <td>
+                        <a href="/productos/eleminar/{{producto.id}}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor%}
+
+            </tbody>
+       </table>
+{% endblock%}

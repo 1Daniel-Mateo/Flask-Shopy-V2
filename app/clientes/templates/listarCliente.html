@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="nav nav-inverse">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            <li><a href="">productos</a></li>
+            <li><a href="">clientes</a></li>
+            {% if current_user.is_authenticated %}
+            <li>
+                <a href="/auth/logout">Cerrar sesión</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="/auth/logout">Cerrar sesión</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+{% for mensaje in get_flashed_messages() %}
+<div class="alert alert-success alert-dismissable">
+ <button type="button" data-dismiss="alert" class="close">
+     X
+ </button>
+ {{ mensaje }}
+</div>
+{% endfor %}
+
+    <h1>😆Lista de Clientes😆</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nombre de Cliente</th>
+                <th>Correo</th>
+                <th>Contraseña</th>
+                <th>Actualizar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{cliente.userName}}</td>
+                <td>{{cliente.email}}</td>
+                <td>{{cliente.password}}</td>
+                <td>
+                    <a href="/clientes/editarCliente/{{cliente.id}}" class="btn btn-primary">Actualizar</a>
+                </td>
+                <td>
+                    <a href="/clientes/eliminarCliente/{{cliente.id}}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock%}
