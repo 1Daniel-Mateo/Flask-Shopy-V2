@@ -21,3 +21,4 @@ visitor
 Werkzeug
 WTForms
 mysql-connector-python
+reportlab
