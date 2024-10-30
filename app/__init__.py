@@ -7,7 +7,7 @@ from flask_login import LoginManager;
 
 #blueprint
 from .mi_blueprint import mi_blueprint
-from app.productos import productos
+from app.productos import productos 
 from app.clientes import clientes
 from app.auth import auth
 
