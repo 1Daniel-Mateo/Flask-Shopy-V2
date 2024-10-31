@@ -7,6 +7,9 @@
 ## Instalación
 
 Inicializar entorno virtual con el comando
+python -m venv .venv
+
+Activar entorno virtual con el comando
  
 .venv\Scripts\activate
  

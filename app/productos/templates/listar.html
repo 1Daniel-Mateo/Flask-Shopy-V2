@@ -53,7 +53,7 @@
                         <a href="/productos/eleminar/{{producto.id}}" class="btn btn-danger">Eliminar</a>
                     </td>
                     <td>
-                        <a href="" class="btn btn-success">Generar PDF</a>
+                        <a href="{{ url_for('pdf.crear_pdf', producto_id=producto.id) }}" class="btn btn-success">Generar PDF</a>
                     </td>
                 </tr>
                 {% endfor%}

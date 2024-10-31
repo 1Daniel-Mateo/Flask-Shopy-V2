@@ -1,6 +1,5 @@
 from . import productos
 #el . es para que nos importe todo el modulo
-from . import productos
 from flask import render_template, redirect, flash
 from .forms import NuevoProducto,EditProdForm
 import app#se llama al modelo

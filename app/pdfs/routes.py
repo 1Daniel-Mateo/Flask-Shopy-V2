@@ -1,17 +1,21 @@
-from flask import render_template, send_file, current_app
+from flask import flash, render_template, send_file, current_app,redirect
 from . import pdf
 from .generator import  generar_pdf
 
-@pdf.route('/generar_pdf')
-def crear_pdf():
+
+@pdf.route('/generar_pdf/<int:producto_id>')
+def crear_pdf(producto_id):
     try:
-        contenido = "Este es un acta de contenido para el PDF.\nPuedes agregar más líneas aquí."
-        nombre_archivo = "acta.pdf"  # Asegúrate de que este es solo el nombre del archivo
+        # Importar Producto aquí en lugar de al inicio
+        from app.models import Producto
+        producto = Producto.query.get_or_404(producto_id)
+        nombre_archivo = f"{producto.name}_prueba.pdf"  # Asegúrate de que este es solo el nombre del archivo
         
         # Generar el PDF
-        ruta_pdf = generar_pdf(nombre_archivo, contenido)
+        ruta_pdf = generar_pdf(nombre_archivo, producto)
         
         return send_file(ruta_pdf, as_attachment=True, mimetype='application/pdf')
     except Exception as e:
-        print(f"Error al generar el PDF: {e}")  # Imprime el error para depuración
-        return "Error al generar el PDF"
+        flash("No se pudo generar el PDF. Inténtalo de nuevo más tarde.")
+        return redirect('/productos/listar')
+         
