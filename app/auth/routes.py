@@ -19,7 +19,7 @@ def login():
         c = app.models.Cliente.query.filter_by(userName = f.userName.data).first()
         if c is None or not c.check_password(f.password.data):
             flash("nombre o clave erronea")
-            return redirect('/auth/login')
+            return redirect('/auth/login') 
         else:
             login_user(c, True)
             flash("bienvenido a la tabla clientes")

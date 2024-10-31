@@ -1,12 +1,15 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+
+
 from .config import Config
 from flask_bootstrap import Bootstrap #estilo de bootstrap
 from flask_login import LoginManager;
 
 #blueprint
 from .mi_blueprint import mi_blueprint
+from app.pdfs import pdf
 from app.productos import productos 
 from app.clientes import clientes
 from app.auth import auth
@@ -20,6 +23,7 @@ login = LoginManager(app)
 
 #configurar y registrar blueprint
 app.register_blueprint(mi_blueprint)
+app.register_blueprint(pdf)
 app.register_blueprint(productos)
 app.register_blueprint(clientes)
 app.register_blueprint(auth)
@@ -36,5 +40,12 @@ from .models import Producto,Cliente,Venta,Detalle
 @app.route('/prueba')
 def prueba():
     return render_template("prueba.html")
+
+@app.route('/')
+def home():
+    return redirect('/auth/login')
+
+
+
 
 
