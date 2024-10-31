@@ -17,17 +17,15 @@ def bienvinido():
 @mi_blueprint.route('/generar_pdf')
 def crear_pdf():
     try:
-        contenido = "Este es un ejemplo de contenido para el PDF."
-        nombre_archivo = "ejemplo.pdf"  # Asegúrate de que este es solo el nombre del archivo
+        contenido = "Este es un acta de contenido para el PDF.\nPuedes agregar más líneas aquí."
+        nombre_archivo = "acta.pdf"  # Asegúrate de que este es solo el nombre del archivo
         
         # Generar el PDF
-        print("PDF generado")
         ruta_pdf = generar_pdf(nombre_archivo, contenido)
         
-        return send_file(ruta_pdf, as_attachment=True, mimetype='application/pdf')
+        return send_file(ruta_pdf, as_attachment=True)
     except Exception as e:
         print(f"Error al generar el PDF: {e}")  # Imprime el error para depuración
         return "Error al generar el PDF"
-
 
 

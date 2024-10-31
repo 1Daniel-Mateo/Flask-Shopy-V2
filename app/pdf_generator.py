@@ -4,7 +4,7 @@ import os
 
 def generar_pdf(nombre_archivo, contenido):        
     # Establecer la ruta del archivo PDF
-    ruta_pdf = os.path.join(nombre_archivo)
+    ruta_pdf = os.path.join('app','pdfs',nombre_archivo)
     
     # Creamos un objeto Canvas para el PDF
     c = canvas.Canvas(ruta_pdf, pagesize=letter)
