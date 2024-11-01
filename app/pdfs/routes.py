@@ -15,7 +15,6 @@ def crear_pdf(producto_id):
         # Generar el PDF
         ruta_pdf = generar_pdf(nombre_archivo, producto)
         
-        flash("Pdf generado")
         return send_file(ruta_pdf, as_attachment=True, mimetype='application/pdf')
     except Exception as e:
         print(f"Error generando PDF: {e}") 
