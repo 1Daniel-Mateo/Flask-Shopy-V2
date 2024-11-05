@@ -7,7 +7,7 @@ from .generator import  generar_pdf
 def crear_pdf(producto_id):
     try:
         # Importar Producto aquí en lugar de al inicio
-        from app.models import Producto
+        from app.models import Producto, Registro
         producto = Producto.query.get_or_404(producto_id)
         print(producto)
         nombre_archivo = f"{producto.name}_prueba.pdf"  # Asegúrate de que este es solo el nombre del archivo

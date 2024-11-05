@@ -26,6 +26,7 @@ def generar_pdf(nombre_archivo, producto):
     c.drawString(100, height - 100, f"Producto: {producto.name}")
     c.drawString(100, height - 130, f"Precio: {producto.precio}")
     
+    
     # Configuración de la tabla de imágenes
     x_offset = 100    # Posición horizontal de inicio
     y_offset = height - 350  # Posición vertical de inicio (espacio para el nombre y precio)

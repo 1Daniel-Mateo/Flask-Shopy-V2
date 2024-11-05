@@ -26,6 +26,7 @@ app.register_blueprint(pdf)
 app.register_blueprint(productos)
 app.register_blueprint(clientes)
 app.register_blueprint(auth)
+
 #Mensaje de seguridad para prevencion de ataques
 app.config["SECRET_KEY"] = "lo que se quiera aqui..."
 

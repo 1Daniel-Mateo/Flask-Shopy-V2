@@ -1,9 +1,10 @@
 from . import productos
 #el . es para que nos importe todo el modulo
 from flask import render_template, redirect, flash
-from .forms import NuevoProducto,EditProdForm
+from .forms import NuevoProducto,EditProdForm, Registro_firma
 import app#se llama al modelo
 import os 
+from werkzeug.utils import secure_filename
 
 @productos.route('/crear', methods=["GET","POST"])
 def crear_producto():
@@ -73,5 +74,36 @@ def eliminar(producto_id):
    
    # return "El producto es id eliminar:"+producto_id
 
+# Registro de firma
+@productos.route('/firma', methods=['GET', 'POST'])
+def registro_firma():
+    p = app.models.Registro()
+    form = Registro_firma()
+    
+    if form.validate_on_submit():
+        # Poblar el objeto Producto
+        form.populate_obj(p)
+        p.firmas = []
 
+        # Guardar cada imagen
+        for firma_field in form.firmas:
+            if firma_field.data:
+                filename = firma_field.data.filename
+                # Guardar la imagen en el sistema de archivos
+                firma_field.data.save(os.path.join('app/productos/static', filename))
+                # Agregar el nombre de la imagen a la lista
+                p.firmas.append(filename)
+
+        # Agregar el producto a la base de datos
+        app.db.session.add(p)
+        app.db.session.commit()
+        flash("Registro de firmas exitoso")
+        return redirect('/clientes/listarCliente')
+        
+    return render_template('registro.html', form=form)
+        
+    
+   
+   
+   
    

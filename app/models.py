@@ -47,4 +47,8 @@ class Detalle(db.Model):
      venta_id=db.Column(db.Integer, db.ForeignKey('ventas.id'))
 
 
-
+class Registro(db.Model):
+    __tablename__ = "registro"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150))
+    firmas = db.Column(MutableList.as_mutable(JSON))
