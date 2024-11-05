@@ -28,10 +28,14 @@ def generar_pdf(nombre_archivo, producto):
     
     # Configuración de la tabla de imágenes
     x_offset = 100    # Posición horizontal de inicio
-    y_offset = height - 250  # Posición vertical de inicio (espacio para el título y precio)
-    img_width, img_height = 100, 100  # Tamaño de cada imagen
-    cols = 4  # Número de columnas
+    y_offset = height - 350  # Posición vertical de inicio (espacio para el nombre y precio)
+    img_width, img_height = 150, 150  # Tamaño de cada imagen
+    cols = 2  # Número de columnas
     padding = 10  # Espacio entre imágenes
+    max_rows = 2 # Maximo numero de fila
+    
+    # Contador de filas
+    current_row = 0
     
     # Iterar sobre las imágenes y dibujarlas en una cuadrícula
     for i, img_name in enumerate(producto.imagenes[:8]):  # Limitar a 8 imágenes
@@ -39,7 +43,8 @@ def generar_pdf(nombre_archivo, producto):
         col = i % cols
         row = i // cols
         x = x_offset + col * (img_width + padding)
-        y = y_offset - row * (img_height + padding)
+        y = y_offset - (row %  max_rows) * (img_height + padding)
+
         
         # Ruta de la imagen actual
         ruta_imagen = os.path.join(current_app.root_path, 'productos', 'imagenes', img_name)
@@ -50,7 +55,13 @@ def generar_pdf(nombre_archivo, producto):
             c.drawImage(img, x, y, width=img_width, height=img_height)
         else:
             c.drawString(x, y + (img_height / 2), "Imagen no encontrada")
-    
+            
+        #Incrementar el  contador de filas y  verificar si se requiere una nueva pagina
+        if (i + 1) %  (cols * max_rows) == 0 and i + 1 < len(producto.imagenes):
+            c.showPage()
+            
+
+
 
     c.save()
     return ruta_pdf
