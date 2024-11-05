@@ -10,6 +10,7 @@ def crear_cliente():
     form = NuevoCliente()
     if form.validate_on_submit():
         form.populate_obj(p)
+        p.set_password(form.password.data)
         app.db.session.add(p)
         app.db.session.commit()
         flash("Registro de cliente exitoso")
@@ -30,8 +31,7 @@ def listar():
 @clientes.route('/editarCliente/<cliente_id>',
                 methods=['GET','POST'])
 def editar(cliente_id):
-    p = app.models.Cliente.query.get(cliente_id)
-    
+    p = app.models.Cliente.query.get(cliente_id) 
     form_edit=EditCliente(obj = p)
     if form_edit.validate_on_submit():
         form_edit.populate_obj(p)

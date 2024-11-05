@@ -8,24 +8,29 @@ import os
 @productos.route('/crear', methods=["GET","POST"])
 def crear_producto():
     p = app.models.Producto()
-    form=NuevoProducto()
+    form = NuevoProducto()
+    
     if form.validate_on_submit():
-       #El formulario va a llenar
-       #El nuevo objeto producto
-       #automaticamente
-       form.populate_obj(p)
-       p.imagen=form.imagen.data.filename
-       app.db.session.add(p)
-       app.db.session.commit()
-       
-       #Ubicar el archivo imagen
-       #se ubicara en app/productos/imagenes
-       file = form.imagen.data
-       file.save(os.path.abspath(os.getcwd()+'/app/productos/imagenes/'+p.imagen))
-       flash("Regitro de producto exitoso")
-       return redirect('/productos/listar')
-       
-    return render_template('new.html', form = form)
+        # Poblar el objeto Producto
+        form.populate_obj(p)
+        p.imagenes = []
+
+        # Guardar cada imagen
+        for imagen_field in form.imagenes:
+            if imagen_field.data:
+                filename = imagen_field.data.filename
+                # Guardar la imagen en el sistema de archivos
+                imagen_field.data.save(os.path.join('app/productos/imagenes', filename))
+                # Agregar el nombre de la imagen a la lista
+                p.imagenes.append(filename)
+
+        # Agregar el producto a la base de datos
+        app.db.session.add(p)
+        app.db.session.commit()
+        flash("Registro de producto exitoso")
+        return redirect('/productos/listar')
+    
+    return render_template('new.html', form=form)
 
 
 @productos.route('/listar')

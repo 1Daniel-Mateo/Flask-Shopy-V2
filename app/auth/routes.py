@@ -10,21 +10,29 @@ from flask_login import current_user,login_user,logout_user
 #para comprobar al usuario actual
 
 #ruta de login
-@auth.route('/login',
-            methods = ['GET','POST'])
+@auth.route('/login', methods = ['GET','POST'])
 def login():
     f = LoginForm()
-    if f.validate_on_submit():
-        # selecionar cliente
-        c = app.models.Cliente.query.filter_by(userName = f.userName.data).first()
-        if c is None or not c.check_password(f.password.data):
-            flash("nombre o clave erronea")
-            return redirect('/auth/login') 
-        else:
-            login_user(c, True)
-            flash("bienvenido a la tabla clientes")
-            return redirect('/clientes/listarCliente')
-        
+    try:
+        if f.validate_on_submit():
+            c = app.models.Cliente.query.filter_by(userName=f.userName.data).first()
+            if c is None:
+                print("Usuario no existe")
+                flash("No exite el usuario")
+                return redirect('/auth/login')
+            if c.check_password(f.password.data) is False:
+                print("la contraseña es erronea")
+                flash("clave errónea")
+                return redirect('/auth/login')
+            
+            login_user(c,True)
+            print("Acesso al programa")
+            flash("Bienvenido a la tabla productos")
+            return redirect('/productos/listar')
+    except Exception as e:
+        flash(f"Ocurrió un error: {e}")
+        return redirect('/auth/login')
+ 
     return render_template("login.html",f=f)
 
 
@@ -32,5 +40,5 @@ def login():
 @auth.route('/logout')
 def logout():
     logout_user()
-    flash("secion cerrada")
+    flash("sesión cerrada")
     return redirect('/auth/login')

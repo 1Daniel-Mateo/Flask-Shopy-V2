@@ -3,6 +3,8 @@ from flask_login import UserMixin
 from app import login
 from werkzeug.security import generate_password_hash,check_password_hash;
 from app import db
+from sqlalchemy.ext.mutable import MutableList
+from sqlalchemy.dialects.mysql import JSON
 
 #Modelos
 class Cliente(UserMixin, db.Model):
@@ -29,7 +31,8 @@ class Producto(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100))
     precio = db.Column(db.Numeric(precision = 10,scale =2 ))
-    imagen = db.Column(db.String(100))
+    imagenes = db.Column(MutableList.as_mutable(JSON))
+
 
 class Venta(db.Model):
     __tablename__= "ventas"
