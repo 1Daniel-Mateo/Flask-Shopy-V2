@@ -7,13 +7,13 @@ from .generator import  generar_pdf
 def crear_pdf(producto_id):
     try:
         # Importar Producto aquí en lugar de al inicio
-        from app.models import Producto
+        from app.models import Producto, Registro_firma
         producto = Producto.query.get_or_404(producto_id)
-        print(producto)
+        firma = Registro_firma.query.first()
         nombre_archivo = f"{producto.name}_prueba.pdf"  # Asegúrate de que este es solo el nombre del archivo
         
         # Generar el PDF
-        ruta_pdf = generar_pdf(nombre_archivo, producto)
+        ruta_pdf = generar_pdf(nombre_archivo, firma, producto)
         
         return send_file(ruta_pdf, as_attachment=True, mimetype='application/pdf')
     except Exception as e:
