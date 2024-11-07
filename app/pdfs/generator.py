@@ -9,7 +9,7 @@ import os
 
 def generar_pdf(nombre_archivo,firma, producto):        
     # Establecer la ruta del archivo PDF
-    ruta_pdf = os.path.join(current_app.root_path,'pdfs','static',nombre_archivo)
+    ruta_pdf = os.path.join(current_app.root_path,'pdfs','tmp',nombre_archivo)
     
     # Crear la carpeta si no existe
     if not os.path.exists(os.path.dirname(ruta_pdf)):

@@ -42,22 +42,32 @@
       <td>{{producto.precio}}</td>
       <td>
         {% if producto.imagenes and producto.imagenes|length > 0 %}
-        <img src="imagenes/{{ producto.imagenes[0] }}" alt="Imagen principal" width="200px" height="150px" />
+        <img
+          src="imagenes/{{ producto.imagenes[0] }}"
+          alt="Imagen principal"
+          width="200px"
+          height="150px"
+        />
         {% else %}
         <span>No imagen</span>
         {% endif %}
       </td>
       <td>
         {% if producto.imagenes and producto.imagenes|length > 1 %}
-          <div style="display: flex; gap: 5px;">
-            {% for imagen in producto.imagenes[1:] %}
-            <img src="imagenes/{{ imagen }}" alt="Imagen adicional" width="50px" height="50px" />
-            {% endfor %}
-          </div>
+        <div style="display: flex; gap: 5px">
+          {% for imagen in producto.imagenes[1:] %}
+          <img
+            src="imagenes/{{ imagen }}"
+            alt="Imagen adicional"
+            width="50px"
+            height="50px"
+          />
+          {% endfor %}
+        </div>
         {% else %}
         <span>Sin imágenes adicionales</span>
         {% endif %}
-      </td>      
+      </td>
       <td>
         <a href="/productos/editar/{{producto.id}}" class="btn btn-primary"
           >Actualizar</a
@@ -81,7 +91,18 @@
 </table>
 <div class="d-grid gap-2 col-6 mx-auto">
   <a href="/productos/crear" class="btn btn-primary">Agregar producto</a>
-  <a href="" class="btn btn-success">Generar Todas la actas</a>
+<form action="{{ url_for('pdf.generar_todos_pdfs') }}" method="POST">
+  <button type="submit" class="btn btn-success">Generar Todas la actas</button>
+</form>
 </div>
+
+{% if rutas_pdf %}
+    <h3>PDFs Generados</h3>
+    <ul>
+        {% for ruta in rutas_pdf %}
+            <li><a href="{{ ruta }}" target="_blank">Descargar {{ ruta }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
 {% endblock%}
