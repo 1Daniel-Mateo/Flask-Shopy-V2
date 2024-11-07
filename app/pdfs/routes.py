@@ -1,4 +1,4 @@
-from flask import flash, render_template, send_file, current_app,redirect
+from flask import flash, send_file, current_app,redirect
 from . import pdf
 from .generator import  generar_pdf
 import zipfile

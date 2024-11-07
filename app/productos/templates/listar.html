@@ -96,13 +96,4 @@
 </form>
 </div>
 
-{% if rutas_pdf %}
-    <h3>PDFs Generados</h3>
-    <ul>
-        {% for ruta in rutas_pdf %}
-            <li><a href="{{ ruta }}" target="_blank">Descargar {{ ruta }}</a></li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
 {% endblock%}
