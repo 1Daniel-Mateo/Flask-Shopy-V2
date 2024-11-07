@@ -29,16 +29,7 @@ class EditProdForm(FlaskForm, ProductForm):
     submit=SubmitField("Actualizar")
     
 
-class Registro_firma(FlaskForm):
-    name =  StringField("Nombre del producto:",
-                        validators=[InputRequired(message="por favor ingresa un nombre de producto")])
-    firmas =  FieldList(FileField("Imagen de producto", validators=[
-                            FileRequired(message="Debes ingresar un archivo"),
-                            FileAllowed(['jpg', 'png','pdf'], message='Solo se admiten imágenes')
-                         ]), min_entries=5, max_entries=5)
-    
-    
-    submit = SubmitField('Guardar firma')
+
 
 
     
