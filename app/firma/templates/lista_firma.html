@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block content %}
+{% for mensaje in get_flashed_messages() %}
+<div class="alert alert-success alert-dismissable">
+  <button type="button" data-dismiss="alert" class="close">X</button>
+  {{ mensaje }}
+</div>
+{% endfor %}
+<div class="d-grid gap-2 col-6 mx-auto">
+  <a href="/clientes/listarCliente" class="btn btn-info">Volver</a>
+</div>
+<h1>😆Lista de firmas😆</h1>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Nombres</th>
+        <th>Firma</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for firma in firmas %}
+      {% for i in range(1, 6) %}
+      <tr>
+        <td>{{ firma['name' + i|string] }}</td>
+        <td>
+          {% if firma.firmas and firma.firmas[i - 1] %}
+        <img
+            src="static/firmas/{{ firma.firmas[i - 1]}}"
+            alt="Firma {{ i }}"
+            width="100px"
+            height="75px"
+        />
+    {% else %}
+        <span>No imagen</span>
+    {% endif %}
+      </tr>
+      {% endfor%}
+    {% endfor%}
+    </tbody>
+  </table>
+  {% for firma in firmas %}
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <a href="/firmas/editar/{{ firma.id }}" class="btn btn-success">Actualizar</a>
+    <a href="/firmas/insertar" class="btn btn-primary">Insertar firmas</a>
+    <a href="#" class="btn btn-danger">Eliminar</a>
+  </div>
+  {% endfor%}
+  {% endblock%}

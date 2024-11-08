@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Editar Firma</h1>
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-group mb-3">
+        <label for="{{ form.name1.id }}" class="form-label">{{ form.name1.label }}</label>
+        {{ form.name1(class="form-control", size=32) }}
+    </div>
+    <div class="form-group mb-3">
+        <label for="{{ form.name2.id }}" class="form-label">{{ form.name2.label }}</label>
+        {{ form.name2(class="form-control", size=32) }}
+    </div>
+    <div class="form-group mb-3">
+        <label for="{{ form.name3.id }}" class="form-label">{{ form.name3.label }}</label>
+        {{ form.name3(class="form-control", size=32) }}
+    </div>
+    <div class="form-group mb-3">
+        <label for="{{ form.name4.id }}" class="form-label">{{ form.name4.label }}</label>
+        {{ form.name4(class="form-control", size=32) }}
+    </div>
+    <div class="form-group mb-3">
+        <label for="{{ form.name5.id }}" class="form-label">{{ form.name5.label }}</label>
+        {{ form.name5(class="form-control", size=32) }}
+    </div>
+    <h3 class="mt-4">Firmas</h3>
+    <div class="mb-3">
+        {% if firma.firmas and firma.firmas%}
+            <div class="d-flex flex-wrap gap-3">
+                {% for i, firma_img in enumerate(firma.firmas) %}
+                    <div class="text-center">
+                        <p>Firma actual {{ i+1 }}:</p>
+                        <img src="/firma/static/firmas/{{ firma_img }}" alt="Imagen actual" class="img-fluid" width="100" height="70">
+                        <p>{{ form.firmas[i].label }} (reemplazar):</p>
+                        {{ form.firmas[i](class="form-control-file") }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No hay firmas registradas.</p>
+        {% endif %}
+    </div>
+    
+</form>
+{% endblock %}
