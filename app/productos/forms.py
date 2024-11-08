@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,IntegerField, SubmitField, FieldList,FormField#Tipos de datos d formulario
 from flask_wtf.file import FileField, FileRequired,FileAllowed #Tipos de archivos que se van a cargar
-from wtforms.validators import InputRequired, NumberRange #Validaciones de formulario
+from wtforms.validators import InputRequired, NumberRange, Optional #Validaciones de formulario
 
 class ProductForm():
     name = StringField("Nombre del producto:",
@@ -26,6 +26,11 @@ class NuevoProducto(FlaskForm, ProductForm):
     
 #Formulario de editar producto    
 class EditProdForm(FlaskForm, ProductForm):
+    imagenes = FieldList(FileField("Imagen de producto", validators=[
+                            Optional(),
+                            FileAllowed(['jpg', 'png'], message='Solo se admiten imágenes')
+                         ]), min_entries=8, max_entries=8)
+    
     submit=SubmitField("Actualizar")
     
 

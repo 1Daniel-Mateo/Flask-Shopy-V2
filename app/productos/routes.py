@@ -31,7 +31,7 @@ def crear_producto():
         flash("Registro de producto exitoso")
         return redirect('/productos/listar')
     
-    return render_template('new.html', form=form)
+    return render_template('registro.html', form=form)
 
 
 @productos.route('/listar')
@@ -43,21 +43,50 @@ def listar():
    return render_template('listar.html',
                           productos=productos)
    
-   
-@productos.route('/editar/<producto_id>',
-                 methods=['GET','POST'])
+@productos.route('/editar/<producto_id>', methods=['GET','POST'])
 def editar(producto_id):
-   #Seleccionar producto con el Id
-   p = app.models.Producto.query.get(producto_id)
-   #Cargo el formulario con los atributo del producto
-   form_edit=EditProdForm(obj = p)
-   if form_edit.validate_on_submit():
-      form_edit.populate_obj(p)
-      app.db.session.commit()
-      flash("Producto Actualizado")
-      return redirect('/productos/listar')
-   return render_template('new.html',
-                          form = form_edit)
+    # Seleccionar el producto con el Id
+    p = app.models.Producto.query.get(producto_id)
+    
+    # Cargo el formulario con los atributos del producto
+    form_edit = EditProdForm(obj=p)
+    
+    # Cargar las imágenes actuales del producto en el formulario
+    if not form_edit.imagenes.entries:
+        for img in p.imagenes:
+            form_edit.imagenes.append_entry()
+
+    if form_edit.validate_on_submit():
+        form_edit.populate_obj(p)
+
+        # Lista para las nuevas imágenes
+        nuevas_imagenes = []
+        
+        # Guardar nuevas imágenes
+        for i, imagen_field in enumerate(form_edit.imagenes):
+            if imagen_field.data:
+                if hasattr(imagen_field.data, 'filename') and imagen_field.data.filename:
+                    # Si hay una nueva imagen, guardarla
+                    filename = secure_filename(imagen_field.data.filename)
+                    file_path = os.path.join('app/productos/imagenes', filename)
+                    imagen_field.data.save(file_path)
+                    nuevas_imagenes.append(filename)
+                else:
+                    # Si no es un archivo válido, manejar el error o continuar
+                    nuevas_imagenes.append(p.imagenes[i])
+            elif i < len(p.imagenes):
+                # Si no se ha subido una nueva imagen, mantener la imagen actual
+                nuevas_imagenes.append(p.imagenes[i])
+
+        # Actualizar las imágenes en la base de datos
+        p.imagenes = nuevas_imagenes
+        app.db.session.commit()
+
+        flash("Producto actualizado")
+        return redirect('/productos/listar')
+
+    return render_template('editar.html', form=form_edit, producto=p, enumerate=enumerate)
+                         
     
    # return "EL producto id editar:"+ producto_id
    
